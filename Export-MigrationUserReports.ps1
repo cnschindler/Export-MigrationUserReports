@@ -1,13 +1,13 @@
-﻿Param
-(
+﻿[cmdletbinding()]
+Param(
 [Parameter(Mandatory=$true)]
 [System.IO.DirectoryInfo]$RootOutputFolder
 )
 
 Function New-SubFolder
 {
-    Param
-    (
+    [cmdletbinding()]
+    Param    (
     [Parameter(Mandatory=$true)]
     [System.IO.DirectoryInfo]$Name
     )
@@ -32,7 +32,7 @@ $Batches = (Get-MigrationBatch -Status Completed).Identity.Name
 
 Foreach ($Batch in $Batches)
 {
-    Write-Host -ForegroundColor DarkYellow -Object "Processing Users from Batch $($Batch)`n"
+    Write-Host -ForegroundColor DarkYellow -Object "`nProcessing Users from Batch $($Batch)`n"
 
     [System.IO.DirectoryInfo]$FolderPath = New-SubFolder -Name $Batch
     $MigUsers = Get-MigrationUser -BatchId $Batch
@@ -49,6 +49,9 @@ Foreach ($Batch in $Batches)
         $Filepath = $null
         $Stat = $null
     }
+
+    $FolderPath = $null
+    $MigUsers = $null
 }
 
 
